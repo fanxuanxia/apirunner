@@ -1,0 +1,24 @@
+context:
+  host: shop-xo.hctestedu.com
+  port: '80'
+baseinfo:
+  casename: 登录用例
+steps:
+- assert_options:
+  - errorMsg: code不等于0
+    target: $.code
+    type: equals
+    value: '0'
+  - errorMsg: 未包含"登录成功"
+    target: $.msg
+    type: contains
+    value: '登录成功'
+  data:
+    accounts: sanfeng
+    pwd: sanfeng
+    type: username
+  extract_options:
+  - target: $.data.token
+    varname: login_token
+  method: post
+  url: "http://!host:!port/index.php?s=/api/user/login&application=app"

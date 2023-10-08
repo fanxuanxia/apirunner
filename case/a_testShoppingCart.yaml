@@ -1,0 +1,25 @@
+context:
+  host: shop-xo.hctestedu.com
+  port: '80'
+baseinfo:
+  casename: 加入购物车--从购物车删除
+steps:
+-
+  method: post
+  url: "http://!host/index.php?s=/index/cart/save.html"
+  data:
+    goods_is: 11
+    stock: sanfeng
+    spec:
+     - type: 尺码
+       value: M
+  assert_options:
+  - errorMsg: code不等于0
+    target: $.code
+    type: equals
+    value: '0'
+  - errorMsg: 信息未包含"成功"
+    target: $.msg
+    type: contains
+    value: '成功'
+

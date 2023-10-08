@@ -1,0 +1,46 @@
+context:
+  host: novel.hctestedu.com
+  port: '80'
+baseinfo:
+  casename: 用户信息
+steps:
+- method: get
+  url: http://!host/user/userInfo
+  assert_options:
+  - errorMsg: code不等于0
+    target: $.code
+    type: equals
+    value: '200'
+  - errorMsg: 信息未包含"成功"
+    target: $.msg
+    type: contains
+    value: 'SUCCESS'
+- method: get
+  url: http://!host/book/listRank?type=0&limit=30
+  assert_options:
+  - errorMsg: code不等于200
+    target: $.code
+    type: equals
+    value: '200'
+  - errorMsg: 信息未包含"成功"
+    target: $.msg
+    type: contains
+    value: 'SUCCESS'
+  extract_options:
+    - target: $.data[0].id
+      varname: bookId
+- method: get
+  url: http://!host/user/queryIsInShelf
+  params:
+    bookId: "!bookId"
+  assert_options:
+  - errorMsg: code不等于200
+    target: $.code
+    type: equals
+    value: '200'
+  - errorMsg: 信息未包含"成功"
+    target: $.msg
+    type: contains
+    value: 'SUCCESS'
+
+
